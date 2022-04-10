@@ -13,7 +13,8 @@ import {
     RightSection,
     Row,
     NewTradeButton,
-    ChartImage
+    ChartImage,
+    MainSectionText
 } from "./HeroStyles";
 import { GiNotebook } from "react-icons/gi"
 import { FiPlus } from "react-icons/fi"
@@ -44,6 +45,11 @@ const Hero = () => {
                 <MainSection className = "container-fluid">
                     <Row className = "row">
                         <LeftSection className = "col-6">
+                            <MainSectionText>
+                                The best way to be profitable in market is to learn from past.
+                                <br/>
+                                Document your trades here.
+                            </MainSectionText>
                             <NewTradeButton>
                                 <FiPlus/> New Trade
                             </NewTradeButton>

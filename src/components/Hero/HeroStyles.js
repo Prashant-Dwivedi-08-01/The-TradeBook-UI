@@ -5,8 +5,8 @@ export const BackDiv = styled.div`
     background-color: #002024;
     height: 30rem;
     width: 100vw;
-    border-bottom-left-radius: 5rem;
-    border-bottom-right-radius: 5rem;
+    /* border-bottom-left-radius: 5rem;
+    border-bottom-right-radius: 5rem; */
 `
 
 export const NavBar = styled.div`
@@ -18,7 +18,7 @@ export const NavBar = styled.div`
 `
 
 export const TitleLogo = styled.div`
-    width: 15rem;
+    width: 17rem;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -41,7 +41,7 @@ export const NavOptions = styled.ul`
     color: white;
     list-style: none;
     display: flex;
-    margin: 0 8rem;
+    margin: 0 6rem;
 `
 
 export const Option = styled.li`
@@ -69,24 +69,32 @@ export const Row = styled.div`
 `
 
 export const LeftSection = styled.div`
-    padding: 18rem;
-
-
+    /* padding: 10rem; */
+    display: flex;
+    flex-direction: column;
+    padding: 5% 7%;
+    
 `
 export const RightSection = styled.div`
 
 `
 
+export const MainSectionText = styled.p`
+    color: white;
+    font-size: 1.23rem;
+`
+
 export const NewTradeButton = styled.button`
     border: none;
-    padding: 0.5rem 2.4rem;
+    padding: 1.5% 5.5%;
     font-size: 1.2rem;
     border-radius: 0.1rem;
     background-color: #1cff95;
     font-weight: bold;
+    width: 32%;
 
 `
 
 export const ChartImage = styled.img`
-    width: 40rem;
+    width: 38rem;
 `
