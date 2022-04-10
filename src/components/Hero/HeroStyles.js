@@ -84,7 +84,7 @@ export const MainSectionText = styled.p`
     font-size: 1.23rem;
 `
 
-export const NewTradeButton = styled.button`
+export const GreenButton = styled.button`
     border: none;
     padding: 1.5% 5.5%;
     font-size: 1.2rem;
