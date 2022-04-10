@@ -5,3 +5,7 @@ This is an interesting project which came to my mind, when I found it difficult 
 One who documents his/her trades tends to not to repeat the same mistake.
 
 This platform ( upon completion ) will have the facility to document trades with entry, exit, dates, chart Images, notes, etc all in a seamless manner in just few clicks.
+
+
+#### Link to Backend repo:
+https://github.com/Prashant-Dwivedi-08-01/The-TradeBook-Backend
