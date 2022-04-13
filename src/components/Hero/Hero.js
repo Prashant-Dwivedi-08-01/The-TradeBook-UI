@@ -18,34 +18,52 @@ import {
 } from "./HeroStyles";
 import { GiNotebook } from "react-icons/gi"
 import { FiPlus } from "react-icons/fi";
-import { login, logout } from "../../actions/auth"
+import { login, logout, register } from "../../actions/auth"
 import { useDispatch } from "react-redux";
-import { useNavigate , useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
+// import ContentLoader, { Facebook } from "react-content-loader";
 
 const Hero = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
 
-    const initialFormData = {
+
+    const initialLoginFormData = {
+        "email": '',
+        "password": ''
+    }
+    const initialRegisterFormData = {
+        "first_name": "",
+        "last_name": "",
+        "phone": "",
         "email": '',
         "password": ''
     }
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
-    const [formData, setFormData] = useState(initialFormData)
+    const [formLoginData, setFormLoginData] = useState(initialLoginFormData)
+    const [formRegisterData, setFormRegisterData] = useState(initialRegisterFormData)
     const [errorMessage, setErrorMessage] = useState("")
     const [showErrorMessage, setShowErrorMessage] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [isLogin, setIsLogin] = useState(true);
 
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem('profile')))
     }, [location])
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleLoginChange = (e) => {
+        setFormLoginData({ ...formLoginData, [e.target.name]: e.target.value });
+    }
+    const handleRegisterChange = (e) => {
+        setFormRegisterData({ ...formRegisterData, [e.target.name]: e.target.value });
+    }
+    const handelLoginToggle = () => {
+        setIsLogin(!isLogin);
     }
 
-    const logout_user = async(e) => {
+    const logout_user = async (e) => {
         const status = await dispatch(logout(navigate))
         if (status) {
             alert(status.message);
@@ -58,19 +76,37 @@ const Hero = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const status = await dispatch(login(formData, navigate))
-        // status is obtained when we have some error in login
-        if (status) {
-            setErrorMessage(status["message"])
-            setShowErrorMessage(true)
-            setFormData(initialFormData)
+        setLoading(true)
+        if (isLogin) {
+            const status = await dispatch(login(formLoginData, navigate))
+            // status is obtained when we have some error in login
+            if (status) {
+                setErrorMessage(status["message"])
+                setShowErrorMessage(true)
+                setFormLoginData(initialLoginFormData)
+            }
+            else {
+                setErrorMessage("");
+                setShowErrorMessage(false);
+                setFormLoginData(initialLoginFormData)
+                document.getElementById("loginModal").click()
+            }
+
+        } else {
+            const status = await dispatch(register(formRegisterData, navigate))
+            if (status) {
+                setErrorMessage(status["message"]);
+                setShowErrorMessage(true);
+                setFormRegisterData(initialRegisterFormData);
+
+            } else {
+                setErrorMessage("");
+                setShowErrorMessage(false);
+                setFormRegisterData(initialRegisterFormData)
+                document.getElementById("loginModal").click()
+            }
         }
-        else {
-            setErrorMessage("")
-            setShowErrorMessage(false);
-            setFormData(initialFormData)
-            document.getElementById("loginModal").click()
-        }
+        setLoading(false)
     }
 
     return (
@@ -94,14 +130,14 @@ const Hero = () => {
                     {
                         user
                             ? (
-                            <LoginButton onClick={logout_user}>
-                                Log Out
-                            </LoginButton>
+                                <LoginButton onClick={logout_user}>
+                                    Log Out {user["user_details"]["email"]}
+                                </LoginButton>
                             )
                             : (
-                            <LoginButton data-bs-toggle="modal" data-bs-target="#login_modal">
-                                Log In
-                            </LoginButton>
+                                <LoginButton data-bs-toggle="modal" data-bs-target="#login_modal">
+                                    Log In
+                                </LoginButton>
                             )
                     }
 
@@ -145,7 +181,13 @@ const Hero = () => {
                             padding: 0,
                             border: "none"
                         }}>
-                            <h5 class="modal-title" id="exampleModalLabel">Sign In To</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                {
+                                    isLogin
+                                    ? "Sign In To"
+                                    : "Register on"
+                                }
+                            </h5>
                         </div>
                         <div class="modal-header" style={{
                             justifyContent: "center",
@@ -158,13 +200,44 @@ const Hero = () => {
 
 
                         <form onSubmit={handleSubmit}>
+
                             <div class="modal-body">
-                                <div class="mb-3">
-                                    <input type="email" onChange={handleChange} value={formData['email']} class="form-control" name="email" placeholder="Email" />
-                                </div>
-                                <div class="mb-3">
-                                    <input type="password" onChange={handleChange} value={formData['password']} class="form-control" name="password" placeholder="Password" />
-                                </div>
+                                {
+                                    isLogin
+                                        ? (
+                                            <div>
+                                                <div class="mb-3">
+                                                    <input type="email" onChange={handleLoginChange} value={formLoginData['email']} class="form-control" name="email" placeholder="Email" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="password" onChange={handleLoginChange} value={formLoginData['password']} class="form-control" name="password" placeholder="Password" />
+                                                </div>
+                                            </div>
+                                        )
+                                        : (
+                                            <div>
+                                                <div class="mb-3">
+                                                    <input type="text" onChange={handleRegisterChange} value={formRegisterData['first_name']} class="form-control" name="first_name" placeholder="First Name" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="text" onChange={handleRegisterChange} value={formRegisterData['last_name']} class="form-control" name="last_name" placeholder="Last Name" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="email" onChange={handleRegisterChange} value={formRegisterData['email']} class="form-control" name="email" placeholder="Email" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="text" onChange={handleRegisterChange} value={formRegisterData['phone']} class="form-control" name="phone" placeholder="Phone" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="password" onChange={handleRegisterChange} value={formRegisterData['password']} class="form-control" name="password" placeholder="Password" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="text" onChange={handleRegisterChange} value={formRegisterData['c_password']} class="form-control" name="c_password" placeholder="Confirm Password" />
+                                                </div>
+                                            </div>
+                                        )
+                                }
+
 
                                 {
                                     showErrorMessage
@@ -176,14 +249,36 @@ const Hero = () => {
                                         : (<></>)
                                 }
 
+                                {
+                                    isLogin
+                                        ? (
+                                            <span style={{ display: "flex", justifyContent: "center", fontSize: "1rem" }}>
+                                                Don't have an account<a style={{ color: "#8d96eb", cursor: "pointer" }} onClick = {handelLoginToggle}>? Register</a>
+                                            </span>
+                                        )
+                                        : (
+                                            <span style={{ display: "flex", justifyContent: "center", fontSize: "1rem" }}>
+                                               Already have an account<a style={{ color: "#8d96eb", cursor: "pointer" }} onClick = {handelLoginToggle}>? Sign In</a>
+                                            </span>
+                                        )
+                                }
 
-                                <span style={{ display: "flex", justifyContent: "center", fontSize: "1rem" }}>
-                                    Already have an account<a style={{ color: "#8d96eb", cursor: "pointer" }}>? Login</a>
-                                </span>
                             </div>
                             <div class="modal-footer" style={{ justifyContent: "center" }}>
                                 <GreenButton type="submit">
-                                    Login
+                                    {
+                                        loading
+                                            ? (
+                                                <div class="spinner-grow spinner-grow-sm text-success" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            )
+                                            : (
+                                                isLogin
+                                                ? "Login"
+                                                : "Register"
+                                            )
+                                    }
                                 </GreenButton>
                             </div>
                         </form>

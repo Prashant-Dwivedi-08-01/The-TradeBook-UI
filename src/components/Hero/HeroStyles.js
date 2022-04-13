@@ -15,6 +15,7 @@ export const NavBar = styled.div`
     justify-content: space-evenly;
     width: 100vw;
     padding: 1.5rem 0rem;
+    flex-wrap: wrap;
 `
 
 export const TitleLogo = styled.div`
@@ -96,5 +97,5 @@ export const GreenButton = styled.button`
 `
 
 export const ChartImage = styled.img`
-    width: 38rem;
+    width: 90%;
 `

@@ -1,7 +1,7 @@
 import './App.css';
 import Hero from "./components/Hero/Hero"
 import Info from "./components/Info/Info"
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
