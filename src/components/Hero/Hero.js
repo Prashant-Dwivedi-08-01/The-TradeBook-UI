@@ -18,9 +18,13 @@ import {
 } from "./HeroStyles";
 import { GiNotebook } from "react-icons/gi"
 import { FiPlus } from "react-icons/fi";
+import { BiUser } from "react-icons/bi";
+import { MdOutlineNotStarted } from "react-icons/md";
 import { login, logout, register } from "../../actions/auth"
 import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom"
+import Info from "../Info/Info"
+import Footer from "../Footer/Footer";
 // import ContentLoader, { Facebook } from "react-content-loader";
 
 const Hero = () => {
@@ -130,13 +134,26 @@ const Hero = () => {
                     {
                         user
                             ? (
-                                <LoginButton onClick={logout_user}>
-                                    Log Out {user["user_details"]["email"]}
-                                </LoginButton>
+                                <>
+                                    <div class="dropdown">
+                                        <LoginButton class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <BiUser size={"1.5rem"} style ={{marginRight: "1rem"}}/> {user["user_details"]["email"]}
+                                        </LoginButton>
+
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#">
+                                                <a onClick={logout_user}>
+                                                    Log Out
+                                                </a>
+                                            </a></li>
+                                        </ul>
+                                    </div>
+
+                                </>
                             )
                             : (
                                 <LoginButton data-bs-toggle="modal" data-bs-target="#login_modal">
-                                    Log In
+                                   Log In
                                 </LoginButton>
                             )
                     }
@@ -153,7 +170,12 @@ const Hero = () => {
                                 Document your trades here.
                             </MainSectionText>
                             <GreenButton>
-                                <FiPlus /> New Trade
+                                {
+                                    user
+                                        ? (<><FiPlus /> New Trade</>)
+                                        : (<><MdOutlineNotStarted /> Get Started</>)
+                                }
+
                             </GreenButton>
                         </LeftSection>
 
@@ -184,8 +206,8 @@ const Hero = () => {
                             <h5 class="modal-title" id="exampleModalLabel">
                                 {
                                     isLogin
-                                    ? "Sign In To"
-                                    : "Register on"
+                                        ? "Sign In To"
+                                        : "Register on"
                                 }
                             </h5>
                         </div>
@@ -253,12 +275,12 @@ const Hero = () => {
                                     isLogin
                                         ? (
                                             <span style={{ display: "flex", justifyContent: "center", fontSize: "1rem" }}>
-                                                Don't have an account<a style={{ color: "#8d96eb", cursor: "pointer" }} onClick = {handelLoginToggle}>? Register</a>
+                                                Don't have an account<a style={{ color: "#8d96eb", cursor: "pointer" }} onClick={handelLoginToggle}>? Register</a>
                                             </span>
                                         )
                                         : (
                                             <span style={{ display: "flex", justifyContent: "center", fontSize: "1rem" }}>
-                                               Already have an account<a style={{ color: "#8d96eb", cursor: "pointer" }} onClick = {handelLoginToggle}>? Sign In</a>
+                                                Already have an account<a style={{ color: "#8d96eb", cursor: "pointer" }} onClick={handelLoginToggle}>? Sign In</a>
                                             </span>
                                         )
                                 }
@@ -275,8 +297,8 @@ const Hero = () => {
                                             )
                                             : (
                                                 isLogin
-                                                ? "Login"
-                                                : "Register"
+                                                    ? "Login"
+                                                    : "Register"
                                             )
                                     }
                                 </GreenButton>
@@ -285,6 +307,9 @@ const Hero = () => {
                     </div>
                 </div>
             </div>
+
+            <Info />
+            <Footer />
 
         </>
     )
