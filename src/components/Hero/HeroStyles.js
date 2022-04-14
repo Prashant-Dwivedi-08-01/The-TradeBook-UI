@@ -56,6 +56,7 @@ export const Option = styled.li`
 
 export const LoginButton = styled.a`
     color: white;
+    display: flex;
     text-decoration: none;
     :hover{
         cursor: pointer;
@@ -92,7 +93,7 @@ export const GreenButton = styled.button`
     border-radius: 0.1rem;
     background-color: #1cff95;
     font-weight: bold;
-    width: 32%;
+    width: 34%;
 
 `
 
