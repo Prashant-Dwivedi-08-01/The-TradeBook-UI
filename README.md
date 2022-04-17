@@ -6,7 +6,11 @@ One who documents his/her trades tends to not to repeat the same mistake.
 
 This platform ( upon completion ) will have the facility to document trades with entry, exit, dates, chart Images, notes, etc all in a seamless manner in just few clicks.
 
+Demo (Under Development) : https://thetradebook.vercel.app/
+
 
 #### Link to Backend repo:
 
 https://github.com/Prashant-Dwivedi-08-01/The-TradeBook-Backend
+
+
