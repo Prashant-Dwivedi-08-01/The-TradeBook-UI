@@ -19,6 +19,10 @@ API.interceptors.request.use((req) => {
     return req;
 })
 
+//  USER 
 export const login = (formData) => API.post('/login', formData)
 export const register = (formData) => API.post('/register', formData)
 export const logout = () => API.post('/logout')
+
+// TRADE 
+export const allTrades = () => API.get("/all_trades")

@@ -21,6 +21,7 @@ import { FiPlus } from "react-icons/fi";
 import { BiUser } from "react-icons/bi";
 import { MdOutlineNotStarted } from "react-icons/md";
 import { login, logout, register } from "../../actions/auth"
+import {  getAllTrades } from "../../actions/trades"
 import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom"
 import Info from "../Info/Info"
@@ -112,6 +113,21 @@ const Hero = () => {
             }
         }
         setLoading(false)
+    }
+
+    const fetch_all_trades_for_this_user = async() =>{
+        const status = await dispatch(getAllTrades())
+        if(status){
+            console.log("Something is worong");
+            console.log(status["message"]);
+
+        }else{
+            console.log("Very Good")
+        }
+    }
+
+    if(user){
+        fetch_all_trades_for_this_user()
     }
 
     return (
