@@ -25,6 +25,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom"
 import Info from "../Info/Info"
 import Footer from "../Footer/Footer";
+import LatestTrades from "../LatestTrades/LatestTrades"
 // import ContentLoader, { Facebook } from "react-content-loader";
 
 const Hero = () => {
@@ -167,16 +168,14 @@ const Hero = () => {
                             <MainSectionText>
                                 The best way to be profitable in market is to learn from past.
                                 <br />
-                                Document your trades here.
+                                Document your trades here!
                             </MainSectionText>
-                            <GreenButton>
-                                {
-                                    user
-                                        ? (<><FiPlus /> New Trade</>)
-                                        : (<><MdOutlineNotStarted /> Get Started</>)
-                                }
+                            {
+                                user
+                                ? <GreenButton><FiPlus /> New Trade</GreenButton>
+                                : <GreenButton data-bs-toggle="modal" data-bs-target="#login_modal"><MdOutlineNotStarted /> Get Started</GreenButton>
+                            }
 
-                            </GreenButton>
                         </LeftSection>
 
                         <RightSection className="col-6">
@@ -309,6 +308,9 @@ const Hero = () => {
             </div>
 
             <Info />
+
+            <LatestTrades/>
+
             <Footer />
 
         </>
