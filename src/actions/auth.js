@@ -59,7 +59,7 @@ export const register = (formData , navigate) => async(dispatch) => {
 
         if( data["success"]){
             const action = {
-                type: LOGOUT,
+                type: REGISTER,
                 payload: data["data"]
             }
     
