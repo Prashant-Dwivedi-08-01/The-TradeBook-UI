@@ -1,7 +1,7 @@
 import { ALL_TRADES, NEW_TRADE } from "../constants/actionTypes"
 import *  as api from "../api/index"
 
-export const getAllTrades = () => async(dispatch) => {
+export const getAllTrades = (navigate) => async(dispatch) => {
     try{
         const { data } = await api.allTrades();
 
@@ -25,7 +25,10 @@ export const getAllTrades = () => async(dispatch) => {
         }
 
     }catch(error){
-        console.log(error.message);
+        if(error.response.status == 401){
+            localStorage.clear()
+            navigate('/')
+        }
         return {
             "status" : false,
             "message" : "Something Went Wrong" // when success if false, we have error. Look Backend API
@@ -35,7 +38,7 @@ export const getAllTrades = () => async(dispatch) => {
 
 }
 
-export const newTrade = (tradeData) => async(dispatch) =>{
+export const newTrade = (tradeData, navigate) => async(dispatch) =>{
     try {
         const { data } = await api.enterTrade(tradeData);
 
@@ -60,7 +63,10 @@ export const newTrade = (tradeData) => async(dispatch) =>{
         }
 
     } catch (error) {
-        console.log(error.message);
+        if(error.response.status == 401){
+            localStorage.clear()
+            navigate('/')
+        }
         return {
             "message" : "Something went wrong"
         }

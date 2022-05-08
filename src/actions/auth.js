@@ -29,7 +29,7 @@ export const login = (formData, navigate) => async(dispatch) => {
 }
 export const logout = (navigate) => async(dispatch) => {
     try{
-        const { data } = await api.logout();
+        const { data }  = await api.logout();
 
         if( data["success"]){
             const action = {
@@ -46,7 +46,11 @@ export const logout = (navigate) => async(dispatch) => {
         }
 
     }catch(error){
-        console.log(error.message);
+        
+        if(error.response.status == 401){
+            localStorage.clear()
+            navigate('/')
+        }
         return {
             "message" : "Something went wrong"
         }
