@@ -101,7 +101,6 @@ const Hero = () => {
                     )
             }
             <Footer />
-
         </>
     )
 }
