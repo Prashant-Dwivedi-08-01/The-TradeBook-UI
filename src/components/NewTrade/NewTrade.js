@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { GiNotebook } from "react-icons/gi";
 import { newTrade } from "../../actions/trades"
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // STYLES
 import { 
     GreenButton,
-    CheckBoxInput,
-    CheckBoxLabel,
     CustomModalHeader 
 } from "./NewTradeStyles";
 

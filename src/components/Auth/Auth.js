@@ -1,6 +1,133 @@
-import React from "react";
+// REACT, ROUTER and REDUX
+import React, { useState } from "react";
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom";
 
-export const Login = () => {
+// ICONS
+import { GiNotebook } from "react-icons/gi"
+
+// ACTIONS
+import { login, register } from "../../actions/auth"
+
+// STYLED COMPONENTS
+import {
+    GreenButton,
+} from "./AuthStyles";
+
+// OTHERS
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const Auth = () => {
+
+    const register_success = () => toast.success('🦄 Registration Successfull. Proceed to Login', {
+        position: "bottom-right",
+        autoClose: 500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    const register_failure = () => toast.error('Registration Failed', {
+        position: "bottom-right",
+        autoClose: 500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    
+    const initialLoginFormData = {
+        "email": '',
+        "password": ''
+    }
+    const initialRegisterFormData = {
+        "first_name": "",
+        "last_name": "",
+        "phone": "",
+        "email": '',
+        "password": '',
+        "c_password": ''
+    }
+
+    const [formLoginData, setFormLoginData] = useState(initialLoginFormData)
+    const [formRegisterData, setFormRegisterData] = useState(initialRegisterFormData)
+    const [errorMessage, setErrorMessage] = useState("")
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [isLogin, setIsLogin] = useState(true);
+
+    const handleLoginChange = (e) => {
+        setFormLoginData({ ...formLoginData, [e.target.name]: e.target.value });
+    }
+    const handleRegisterChange = (e) => {
+        setFormRegisterData({ ...formRegisterData, [e.target.name]: e.target.value });
+    }
+    const handelLoginToggle = () => {
+        setIsLogin(!isLogin);
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+
+        // LOGIN
+        if (isLogin) {
+            const status = await dispatch(login(formLoginData, navigate))
+            // status is obtained when we have some error in login
+            if (status) {
+                setErrorMessage(status["message"])
+                setShowErrorMessage(true)
+                setFormLoginData(initialLoginFormData)
+            }
+            else {
+                setErrorMessage("");
+                setShowErrorMessage(false);
+                setFormLoginData(initialLoginFormData)
+                // document.getElementById("loginModal").click()
+                closeModal();
+            }
+
+        }
+        // REGISTER
+        else {
+            if(formRegisterData["password"] != formRegisterData['c_password']){
+                setErrorMessage("Password and Confirm Password did not Match")
+                setShowErrorMessage(true);
+            }else{
+                const status = await dispatch(register(formRegisterData, navigate))
+                if (status) {
+                    setErrorMessage(status["message"]);
+                    setShowErrorMessage(true);
+                    // setFormRegisterData(initialRegisterFormData);
+                    // register_failure();
+    
+                } else {
+                    // register_success();
+                    closeModal();
+                    // setTimeout(() => {
+                    //     // Waiting for the toaster to close
+                    //     closeModal()
+                    // }, 1800);
+                }
+            }
+        }
+        setLoading(false)
+    }
+
+    const closeModal = () => {
+        setFormLoginData(initialLoginFormData);
+        setFormRegisterData(initialRegisterFormData);
+        setErrorMessage("");
+        setShowErrorMessage(false);
+        document.getElementById("loginModal_btn").click();
+    }
 
     return (
         <>
@@ -10,7 +137,7 @@ export const Login = () => {
                         border: "none",
                         borderTop: "11px solid #1cff95"
                     }}>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal"  onClick={closeModal} aria-label="Close" id="loginModal_btn"></button>
                     </div>
 
                     <div className="modal-header" style={{
@@ -121,6 +248,9 @@ export const Login = () => {
                     </form>
                 </div>
             </div>
+
         </>
     )
 }
+
+export default Auth;
