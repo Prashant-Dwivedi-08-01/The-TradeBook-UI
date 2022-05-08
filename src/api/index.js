@@ -6,7 +6,7 @@ const env = {
 }
 
 const API = axios.create({
-    baseURL: env["prod"]
+    baseURL: env["local"]
 });
 
 // setting auth header

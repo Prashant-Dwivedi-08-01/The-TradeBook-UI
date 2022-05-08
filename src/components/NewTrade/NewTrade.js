@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { GiNotebook } from "react-icons/gi";
 import { newTrade } from "../../actions/trades"
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -14,6 +15,7 @@ import {
 const NewTrade = ({ renderStatus, setRenderStatus }) => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const initialTradeData = {
         "script": "",
@@ -57,7 +59,7 @@ const NewTrade = ({ renderStatus, setRenderStatus }) => {
         e.preventDefault()
         setLoading(true)
 
-        const response = await dispatch(newTrade(tradeData));
+        const response = await dispatch(newTrade(tradeData, navigate));
 
         if(response['status']){
             

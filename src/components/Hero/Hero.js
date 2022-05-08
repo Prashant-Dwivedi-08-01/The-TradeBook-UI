@@ -1,7 +1,7 @@
 // REACT, REDUX and ROUTER
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom";
 
 // STYLED COMPONENTS
 
@@ -26,6 +26,7 @@ import ContentLoader from "react-content-loader";
 const Hero = () => {
     const dispatch = useDispatch();
     const location = useLocation();
+    const navigate = useNavigate();
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
@@ -45,7 +46,7 @@ const Hero = () => {
     const fetch_all_trades_for_this_user = async () => {
 
         setAllTradeLoading(true)
-        const response = await dispatch(getAllTrades())
+        const response = await dispatch(getAllTrades(navigate))
 
         if (response["status"]) {
 
