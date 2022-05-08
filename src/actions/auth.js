@@ -46,7 +46,7 @@ export const logout = (navigate) => async(dispatch) => {
         }
 
     }catch(error){
-
+        
         if(error.response.status == 401){
             localStorage.clear()
             navigate('/')
