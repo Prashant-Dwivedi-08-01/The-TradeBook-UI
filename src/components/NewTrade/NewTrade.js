@@ -11,7 +11,7 @@ import {
     CustomModalHeader 
 } from "./NewTradeStyles";
 
-const NewTrade = () => {
+const NewTrade = ({ renderStatus, setRenderStatus }) => {
 
     const dispatch = useDispatch();
 
@@ -56,13 +56,13 @@ const NewTrade = () => {
     const handleSubmit = async(e) => {
         e.preventDefault()
         setLoading(true)
-        console.log(JSON.stringify(tradeData));
 
         const response = await dispatch(newTrade(tradeData));
 
         if(response['status']){
             
             trade_success();
+            setRenderStatus(!renderStatus);
             setTimeout(() => {
                 // Waiting for the toaster to close
                 closeModal()

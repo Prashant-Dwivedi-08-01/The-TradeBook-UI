@@ -10,8 +10,6 @@ export const getAllTrades = () => async(dispatch) => {
                 type: ALL_TRADES,
                 payload: data["data"]["trades_info"]
             }
-            
-            console.log(data["data"]["trades_info"]);
 
             dispatch(action)
             

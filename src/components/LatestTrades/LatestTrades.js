@@ -68,28 +68,6 @@ const LatestTrades = ({ trades }) => {
                                 </TableRow>
                             ))
                         }
-                        {/* <TableRow >
-                            <Td style={{ width: "100px" }}>
-                                <CheckBox>
-                                    <input type="checkbox" />
-                                    <span className="checkmark"> 2 </span>
-                                </CheckBox>
-                            </Td>
-                            <Td>
-                                <ScriptLogo src='images/MANINFRA.png' />
-                                Mark
-                            </Td>
-                            <Td>22-1-201</Td>
-                            <Td>145.2</Td>
-                            <Td>
-                                <LossButton>
-                                    <MinusIcon /> Loss
-                                </LossButton>
-                            </Td>
-                            <Td>
-                                <Details><AiOutlineFileSearch size={'2rem'} color="#8d96eb" /></Details>
-                            </Td>
-                        </TableRow> */}
                     
                     </tbody>
                 </Table>

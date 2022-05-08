@@ -64,9 +64,13 @@ const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
 
     const handleLoginChange = (e) => {
+        setErrorMessage("");
+        setShowErrorMessage(false);
         setFormLoginData({ ...formLoginData, [e.target.name]: e.target.value });
     }
     const handleRegisterChange = (e) => {
+        setErrorMessage("");
+        setShowErrorMessage(false);
         setFormRegisterData({ ...formRegisterData, [e.target.name]: e.target.value });
     }
     const handelLoginToggle = () => {
