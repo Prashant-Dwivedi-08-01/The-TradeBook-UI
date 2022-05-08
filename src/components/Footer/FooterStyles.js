@@ -8,4 +8,7 @@ export const FooterDiv = styled.div`
     margin-top: 2rem;
     padding-top: 5rem;
     padding-bottom: 1rem;
+    /* position: fixed;
+    bottom: 0; */
+    width: 100vw;
 `
