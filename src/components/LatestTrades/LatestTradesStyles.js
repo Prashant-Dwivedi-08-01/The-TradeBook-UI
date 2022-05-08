@@ -35,7 +35,7 @@ export const CheckBox = styled.label`
     justify-content: space-evenly;
 `
 export const ScriptLogo = styled.img`
-    width: 23%;
+    width: 13%;
     border-radius: 50%;
     margin-right: 0.5rem;
 `
@@ -46,7 +46,7 @@ export const ProfitButton = styled.span`
     color: #1fa750;
     display: flex;
     align-items: center;
-    width: 60%;
+    width: 5rem;
     
 `
 export const LossButton = styled.span`

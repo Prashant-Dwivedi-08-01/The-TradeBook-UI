@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./Hero.css"
 import {
     BackDiv,
     NavBar,
@@ -21,18 +22,41 @@ import { FiPlus } from "react-icons/fi";
 import { BiUser } from "react-icons/bi";
 import { MdOutlineNotStarted } from "react-icons/md";
 import { login, logout, register } from "../../actions/auth"
-import {  getAllTrades } from "../../actions/trades"
-import { useDispatch } from "react-redux";
+import { getAllTrades } from "../../actions/trades"
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom"
 import Info from "../Info/Info"
 import Footer from "../Footer/Footer";
-import LatestTrades from "../LatestTrades/LatestTrades"
+import LatestTrades from "../LatestTrades/LatestTrades";
+import NewTrade from "../NewTrade/NewTrade";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import ContentLoader, { Facebook } from "react-content-loader";
 
 const Hero = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
+
+    const logout_success = () => toast.success('🦄 Logged Out Successfully!', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    const logout_failuer = () => toast.error("Can't Log Out, Something went wrong!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
 
 
     const initialLoginFormData = {
@@ -53,7 +77,11 @@ const Hero = () => {
     const [errorMessage, setErrorMessage] = useState("")
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [allTradeloading, setAllTradeLoading] = useState(false);
     const [isLogin, setIsLogin] = useState(true);
+
+    const [allTrades, setAllTrades] = useState([])
+
 
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem('profile')))
@@ -70,14 +98,16 @@ const Hero = () => {
     }
 
     const logout_user = async (e) => {
+        e.preventDefault();
+        setLoading(true);
         const status = await dispatch(logout(navigate))
         if (status) {
-            alert(status.message);
+            logout_failuer();
         }
         else {
-
-            alert("Logged Out Successfully");
+            logout_success();
         }
+        setLoading(false);
     }
 
     const handleSubmit = async (e) => {
@@ -115,21 +145,29 @@ const Hero = () => {
         setLoading(false)
     }
 
-    const fetch_all_trades_for_this_user = async() =>{
-        const status = await dispatch(getAllTrades())
-        if(status){
+    const fetch_all_trades_for_this_user = async () => {
+
+        setAllTradeLoading(true)
+        const response = await dispatch(getAllTrades())
+
+        if (response["status"]) {
+            console.log("Fetched All Trades");
+            const data = response['data']
+            setAllTrades(data)
+
+        } else {
             console.log("Something is worong");
-            console.log(status["message"]);
+            console.log(response["message"]);
 
-        }else{
-            console.log("Very Good")
         }
+        setAllTradeLoading(false)
     }
 
-    if(user){
-        fetch_all_trades_for_this_user()
-    }
-
+    useEffect(() => {
+        if (user) {
+            fetch_all_trades_for_this_user()
+        }
+    }, [])
     return (
         <>
             <BackDiv>
@@ -149,33 +187,40 @@ const Hero = () => {
                         <Option>News</Option>
                     </NavOptions>
                     {
-                        user
+                        loading
                             ? (
-                                <>
-                                    <div class="dropdown">
-                                        <LoginButton class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <BiUser size={"1.5rem"} style ={{marginRight: "1rem"}}/> {user["user_details"]["email"]}
+                                <div className="spinner-grow spinner-grow-sm text-success" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            ): (
+                                user
+                                    ? (
+                                        <>
+                                            <div className="dropdown" style={{ backgroundColor: "#22384b" }}>
+                                                <LoginButton style={{ backgroundColor: "#22384b" }} className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <BiUser size={"1.5rem"} style={{ marginRight: "1rem" }} /> {user["user_details"]["email"]}
+                                                </LoginButton>
+
+                                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    <li>
+                                                        <a className="dropdown-item" href="#">
+                                                            <span onClick={logout_user}>
+                                                                Log Out
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                        </>
+                                    )
+                                    : (
+                                        <LoginButton data-bs-toggle="modal" data-bs-target="#login_modal">
+                                            Log In
                                         </LoginButton>
-
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a class="dropdown-item" href="#">
-                                                <a onClick={logout_user}>
-                                                    Log Out
-                                                </a>
-                                            </a></li>
-                                        </ul>
-                                    </div>
-
-                                </>
-                            )
-                            : (
-                                <LoginButton data-bs-toggle="modal" data-bs-target="#login_modal">
-                                   Log In
-                                </LoginButton>
+                                    )
                             )
                     }
-
-
 
                 </NavBar>
                 <MainSection className="container-fluid">
@@ -188,8 +233,8 @@ const Hero = () => {
                             </MainSectionText>
                             {
                                 user
-                                ? <GreenButton><FiPlus /> New Trade</GreenButton>
-                                : <GreenButton data-bs-toggle="modal" data-bs-target="#login_modal"><MdOutlineNotStarted /> Get Started</GreenButton>
+                                    ? <GreenButton data-bs-toggle="modal" data-bs-target="#newtrade_modal"><FiPlus /> New Trade</GreenButton>
+                                    : <GreenButton data-bs-toggle="modal" data-bs-target="#login_modal"><MdOutlineNotStarted /> Get Started</GreenButton>
                             }
 
                         </LeftSection>
@@ -203,22 +248,22 @@ const Hero = () => {
             </BackDiv>
 
             <button type="button" id="loginModal" style={{ display: "none" }} data-bs-dismiss="modal" data-bs-target="#login_modal" aria-label="Close"></button>
-            <div class="modal fade" id="login_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" style={{ maxWidth: "414px" }}>
-                    <div class="modal-content" style={{ borderRadius: "0.5rem" }}>
-                        <div class="modal-header" style={{
+            <div className="modal fade" id="login_modal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: "414px" }}>
+                    <div className="modal-content" style={{ borderRadius: "0.5rem" }}>
+                        <div className="modal-header" style={{
                             border: "none",
                             borderTop: "11px solid #1cff95"
                         }}>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
-                        <div class="modal-header" style={{
+                        <div className="modal-header" style={{
                             justifyContent: "center",
                             padding: 0,
                             border: "none"
                         }}>
-                            <h5 class="modal-title" id="exampleModalLabel">
+                            <h5 className="modal-title" id="exampleModalLabel">
                                 {
                                     isLogin
                                         ? "Sign In To"
@@ -226,50 +271,50 @@ const Hero = () => {
                                 }
                             </h5>
                         </div>
-                        <div class="modal-header" style={{
+                        <div className="modal-header" style={{
                             justifyContent: "center",
                             padding: 0,
                             border: "none"
                         }}>
-                            <h4 class="modal-title" id="exampleModalLabel">
+                            <h4 className="modal-title" id="exampleModalLabel">
                                 <GiNotebook size="2rem" color="black" style={{ marginRight: "1rem" }} />The TradeBook</h4>
                         </div>
 
 
                         <form onSubmit={handleSubmit}>
 
-                            <div class="modal-body">
+                            <div className="modal-body">
                                 {
                                     isLogin
                                         ? (
                                             <div>
-                                                <div class="mb-3">
-                                                    <input type="email" onChange={handleLoginChange} value={formLoginData['email']} class="form-control" name="email" placeholder="Email" />
+                                                <div className="mb-3">
+                                                    <input type="email" onChange={handleLoginChange} value={formLoginData['email']} className="form-control" name="email" placeholder="Email" />
                                                 </div>
-                                                <div class="mb-3">
-                                                    <input type="password" onChange={handleLoginChange} value={formLoginData['password']} class="form-control" name="password" placeholder="Password" />
+                                                <div className="mb-3">
+                                                    <input type="password" onChange={handleLoginChange} value={formLoginData['password']} className="form-control" name="password" placeholder="Password" />
                                                 </div>
                                             </div>
                                         )
                                         : (
                                             <div>
-                                                <div class="mb-3">
-                                                    <input type="text" onChange={handleRegisterChange} value={formRegisterData['first_name']} class="form-control" name="first_name" placeholder="First Name" />
+                                                <div className="mb-3">
+                                                    <input type="text" onChange={handleRegisterChange} value={formRegisterData['first_name']} className="form-control" name="first_name" placeholder="First Name" />
                                                 </div>
-                                                <div class="mb-3">
-                                                    <input type="text" onChange={handleRegisterChange} value={formRegisterData['last_name']} class="form-control" name="last_name" placeholder="Last Name" />
+                                                <div className="mb-3">
+                                                    <input type="text" onChange={handleRegisterChange} value={formRegisterData['last_name']} className="form-control" name="last_name" placeholder="Last Name" />
                                                 </div>
-                                                <div class="mb-3">
-                                                    <input type="email" onChange={handleRegisterChange} value={formRegisterData['email']} class="form-control" name="email" placeholder="Email" />
+                                                <div className="mb-3">
+                                                    <input type="email" onChange={handleRegisterChange} value={formRegisterData['email']} className="form-control" name="email" placeholder="Email" />
                                                 </div>
-                                                <div class="mb-3">
-                                                    <input type="text" onChange={handleRegisterChange} value={formRegisterData['phone']} class="form-control" name="phone" placeholder="Phone" />
+                                                <div className="mb-3">
+                                                    <input type="text" onChange={handleRegisterChange} value={formRegisterData['phone']} className="form-control" name="phone" placeholder="Phone" />
                                                 </div>
-                                                <div class="mb-3">
-                                                    <input type="password" onChange={handleRegisterChange} value={formRegisterData['password']} class="form-control" name="password" placeholder="Password" />
+                                                <div className="mb-3">
+                                                    <input type="password" onChange={handleRegisterChange} value={formRegisterData['password']} className="form-control" name="password" placeholder="Password" />
                                                 </div>
-                                                <div class="mb-3">
-                                                    <input type="text" onChange={handleRegisterChange} value={formRegisterData['c_password']} class="form-control" name="c_password" placeholder="Confirm Password" />
+                                                <div className="mb-3">
+                                                    <input type="text" onChange={handleRegisterChange} value={formRegisterData['c_password']} className="form-control" name="c_password" placeholder="Confirm Password" />
                                                 </div>
                                             </div>
                                         )
@@ -301,13 +346,13 @@ const Hero = () => {
                                 }
 
                             </div>
-                            <div class="modal-footer" style={{ justifyContent: "center" }}>
+                            <div className="modal-footer" style={{ justifyContent: "center" }}>
                                 <GreenButton type="submit">
                                     {
                                         loading
                                             ? (
-                                                <div class="spinner-grow spinner-grow-sm text-success" role="status">
-                                                    <span class="visually-hidden">Loading...</span>
+                                                <div className="spinner-grow spinner-grow-sm text-success" role="status">
+                                                    <span className="visually-hidden">Loading...</span>
                                                 </div>
                                             )
                                             : (
@@ -323,11 +368,38 @@ const Hero = () => {
                 </div>
             </div>
 
-            <Info />
+            {/* NEW TRADE MODAL */}
+            <div className="modal fade" id="newtrade_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <NewTrade />
+            </div>
 
-            <LatestTrades/>
+            <Info />
+            {
+                allTradeloading
+                    ? (
+                        <div className="container-fluid text-center">
+                            <div className="spinner-border" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+
+                    )
+                    : <LatestTrades trades={allTrades} />
+            }
 
             <Footer />
+
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                />
 
         </>
     )

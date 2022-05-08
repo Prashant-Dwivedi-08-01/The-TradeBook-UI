@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     LatestTradesDiv,
     Heading,
@@ -18,9 +18,11 @@ import {
 } from "./LatestTradesStyles"
 
 import { AiOutlineFileSearch } from "react-icons/ai"
+import { useSelector } from "react-redux";
+
+const LatestTrades = ({ trades }) => {
 
 
-const LatestTrades = () => {
     return (
         <LatestTradesDiv className='container'>
             <Heading>Latest Trades</Heading>
@@ -32,38 +34,45 @@ const LatestTrades = () => {
                             <Th>Script</Th>
                             <Th>Entry Date</Th>
                             <Th>Entry Price</Th>
+                            <Th>Qty</Th>
                             <Th>P&L</Th>
-                            <Th>Action</Th>
+                            <Th>Explore</Th>
                         </TableRow>
                     </thead>
                     <tbody>
-                        <TableRow >
+                        {
+                            trades.map((trade) => (
+                            
+                                <TableRow key={trade['script']} >
+                                    <Td style={{ width: "100px" }}>
+                                        <CheckBox>
+                                            <input type="checkbox" />
+                                            {/* <span className="checkmark"> 1 </span> */}
+                                        </CheckBox>
+                                    </Td>
+                                    <Td style={{ width: "20%" }}>
+                                        <ScriptLogo src='images/VEDL.png' />
+                                        {trade['script']}
+                                    </Td>
+                                    <Td>{trade['entries'][0][0].slice(0, -12)}</Td>
+                                    <Td>{trade['entries'][0][2]}</Td>
+                                    <Td>{trade['entries'][0][1]}</Td>
+                                    <Td>
+                                        <ProfitButton>
+                                            <PlusIcon /> Profit
+                                        </ProfitButton>
+                                    </Td>
+                                    <Td>
+                                        <Details><AiOutlineFileSearch size={'2rem'} color="#8d96eb" /></Details>
+                                    </Td>
+                                </TableRow>
+                            ))
+                        }
+                        {/* <TableRow >
                             <Td style={{ width: "100px" }}>
                                 <CheckBox>
                                     <input type="checkbox" />
-                                    <span class="checkmark"> 1 </span>
-                                </CheckBox>
-                            </Td>
-                            <Td>
-                                <ScriptLogo src='images/VEDL.png' />
-                                Mark
-                            </Td>
-                            <Td>22-1-201</Td>
-                            <Td>145.2</Td>
-                            <Td>
-                                <ProfitButton>
-                                    <PlusIcon /> Profit
-                                </ProfitButton>
-                            </Td>
-                            <Td>
-                                <Details><AiOutlineFileSearch size={'2rem'} color="#8d96eb" /></Details>
-                            </Td>
-                        </TableRow>
-                        <TableRow >
-                            <Td style={{ width: "100px" }}>
-                                <CheckBox>
-                                    <input type="checkbox" />
-                                    <span class="checkmark"> 2 </span>
+                                    <span className="checkmark"> 2 </span>
                                 </CheckBox>
                             </Td>
                             <Td>
@@ -80,31 +89,8 @@ const LatestTrades = () => {
                             <Td>
                                 <Details><AiOutlineFileSearch size={'2rem'} color="#8d96eb" /></Details>
                             </Td>
-                        </TableRow>
-                        <TableRow >
-                            <Td style={{ width: "100px" }}>
-                                <CheckBox>
-                                    <input type="checkbox" />
-                                    <span class="checkmark"> 3 </span>
-                                </CheckBox>
-                            </Td>
-                            <Td style={{width: "20%"}}>
-                                <ScriptLogo src='images/mahindra.png' />
-                                Mark
-                            </Td>
-                            <Td>22-1-201</Td>
-                            <Td>145.2</Td>
-                            <Td>
-                                <ProfitButton>
-                                    <PlusIcon /> Profit
-                                </ProfitButton>
-                            </Td>
-                            <Td>
-                                <Details><AiOutlineFileSearch size={'2rem'} color="#8d96eb" /></Details>
-
-
-                            </Td>
-                        </TableRow>
+                        </TableRow> */}
+                    
                     </tbody>
                 </Table>
             </TableDiv>
