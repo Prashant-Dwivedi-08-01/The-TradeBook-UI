@@ -27,3 +27,4 @@ export const logout = () => API.post('/logout')
 // TRADE 
 export const allTrades = () => API.get("/all_trades")
 export const enterTrade = (tradeData) => API.post("/enter_trade", tradeData)
+export const exitTrade = (tradeData) => API.post("/exit_trade", tradeData)
