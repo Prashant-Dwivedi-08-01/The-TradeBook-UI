@@ -1,4 +1,4 @@
-import { ALL_TRADES, NEW_TRADE } from "../constants/actionTypes"
+import { ALL_TRADES, NEW_TRADE, EXIT_TRADE } from "../constants/actionTypes"
 import *  as api from "../api/index"
 
 export const getAllTrades = (navigate) => async(dispatch) => {
@@ -42,6 +42,15 @@ export const newTrade = (tradeData, navigate) => async(dispatch) =>{
     try {
         const { data } = await api.enterTrade(tradeData);
 
+        // Eg of Success Full Response
+        // {
+        //     "data": {
+        //         "msg": "Trade Information Saved Successfully"
+        //     },
+        //     "error": null,
+        //     "success": true
+        // }
+
         if(data['success']){
 
             const action = {
@@ -68,6 +77,43 @@ export const newTrade = (tradeData, navigate) => async(dispatch) =>{
             navigate('/')
         }
         return {
+            "status": false,
+            "message" : "Something went wrong"
+        }
+    }
+}
+
+export const exitTrade = (tradeData, navigate) => async(dispatch) => {
+    try {
+        const { data } = await api.exitTrade(tradeData);
+
+        if(data["success"]){
+
+            const action = {
+                type: EXIT_TRADE,
+                payload: data["data"]["trade_info"]
+            }
+            dispatch(action)
+
+            return {
+                "status": true,
+                "data": data["data"]["msg"]
+            }
+
+        } else {
+            return {
+                "status" : false,
+                "message": data['error']
+            }
+        }
+
+    } catch (error) {
+        if(error.response.status == 401){
+            localStorage.clear();
+            navigate("/")
+        }
+        return {
+            "status": false,
             "message" : "Something went wrong"
         }
     }
