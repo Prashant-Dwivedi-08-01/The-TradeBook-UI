@@ -70,7 +70,7 @@ const Main = () => {
                             TradeBook
                         </Name>
                         <Slogan>
-                            New to document your trades
+                            New way to document your trades
                         </Slogan>
                     </TitleLogo>
                     <NavOptions>

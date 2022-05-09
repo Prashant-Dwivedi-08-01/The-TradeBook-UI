@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 // ICONS
 import { GiNotebook } from "react-icons/gi"
+import { AiOutlineEye } from "react-icons/ai"; //eye open
+import { AiOutlineEyeInvisible } from "react-icons/ai"; // eye closed
 
 // ACTIONS
 import { login, register } from "../../actions/auth"
@@ -62,6 +64,7 @@ const Auth = () => {
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [loading, setLoading] = useState(false);
     const [isLogin, setIsLogin] = useState(true);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleLoginChange = (e) => {
         setErrorMessage("");
@@ -84,12 +87,14 @@ const Auth = () => {
         // LOGIN
         if (isLogin) {
             const status = await dispatch(login(formLoginData, navigate))
-            // status is obtained when we have some error in login
+        
+            // ERROR
             if (status) {
                 setErrorMessage(status["message"])
                 setShowErrorMessage(true)
-                setFormLoginData(initialLoginFormData)
+                // setFormLoginData(initialLoginFormData)
             }
+            // LOGIN SUCCESS
             else {
                 setErrorMessage("");
                 setShowErrorMessage(false);
@@ -126,6 +131,7 @@ const Auth = () => {
     }
 
     const closeModal = () => {
+        setShowPassword(false);
         setFormLoginData(initialLoginFormData);
         setFormRegisterData(initialRegisterFormData);
         setErrorMessage("");
@@ -177,8 +183,16 @@ const Auth = () => {
                                             <div className="mb-3">
                                                 <input type="email" onChange={handleLoginChange} value={formLoginData['email']} className="form-control" name="email" placeholder="Email" />
                                             </div>
-                                            <div className="mb-3">
-                                                <input type="password" onChange={handleLoginChange} value={formLoginData['password']} className="form-control" name="password" placeholder="Password" />
+                                            <div className="mb-3 input-group">
+                                                <input type={showPassword? "text":"password"} onChange={handleLoginChange} value={formLoginData['password']} className="form-control" name="password" placeholder="Password" />
+                                                <span class="input-group-text" id="basic-addon2" onClick={() => setShowPassword(!showPassword)}>
+                                                    {
+                                                        showPassword
+                                                        ? <AiOutlineEye color="#00204"/>
+                                                        : <AiOutlineEyeInvisible color="#002024"/>
+                                                    }
+                                                    
+                                                </span>
                                             </div>
                                         </div>
                                     )
