@@ -16,35 +16,15 @@ const ResetPassword = () => {
         "c_new_password": ""
     }
 
-    const { user_id } = useParams();
-
-    const confirmResetPasswordSetEmail = async () => {
-        setLoading(true);
-
-        const response = await dispatch(confirmResetPass(user_id));
-        if (response["status"]) {
-            setFormData({ ...formData, "email": response["email"] })
-            setShowErrorMessage(false);
-            setErrorMessage("")
-        } else {
-            setErrorMessage(response["message"]);
-            setShowErrorMessage(true);
-        }
-
-        setLoading(false);
-    }
-
-    useEffect(() => {
-        console.log(user_id);
-        confirmResetPasswordSetEmail();
-    }, [])
-
-
     const dispatch = useDispatch();
     const [formData, setFormData] = useState(initialFormData)
     const [loading, setLoading] = useState(false);
+    const [completeLoading, setCompleteLoading] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [errorMessage, setErrorMessage] = useState("")
+
+    const [showCompleteErrorMessage, setShowCompleteErrorMessage] = useState(false);
+    const [completeErrorMessage, setCompleteErrorMessage] = useState(false);
 
     const success = () => toast.success('🦄 Password Reset Successfull! Proceed to login.', {
         position: "bottom-right",
@@ -55,6 +35,32 @@ const ResetPassword = () => {
         draggable: true,
         progress: undefined,
     });
+
+    const { user_id } = useParams();
+
+    const confirmResetPasswordSetEmail = async () => {
+        setCompleteLoading(true);
+
+        const response = await dispatch(confirmResetPass(user_id));
+        if (response["status"]) {
+            setFormData({ ...formData, "email": response["email"] })
+            setShowCompleteErrorMessage(false);
+            setCompleteErrorMessage("")
+        } else {
+            setShowCompleteErrorMessage(true);
+            setCompleteErrorMessage(response["message"]);
+        }
+
+        setCompleteLoading(false);
+    }
+
+    useEffect(() => {
+        console.log(user_id);
+        confirmResetPasswordSetEmail();
+    }, [])
+
+
+
 
     const handelChange = (e) => {
         setErrorMessage("")
@@ -90,7 +96,7 @@ const ResetPassword = () => {
             <MainDiv>
                 <Heading className="mb-5">Reset Password</Heading>
                 {
-                    loading
+                    completeLoading
                         ? (
                             <div class="text-center text-light">
                                 <div class="spinner-border" role="status">
@@ -101,13 +107,13 @@ const ResetPassword = () => {
                         : (
                             <>
                                 {
-                                    showErrorMessage
+                                    showCompleteErrorMessage
                                         ? (
                                             <div class="card mb-3 d-flex align-items-center" style={{ width: "45rem" }}>
                                                 <img src="/images/warning.png" class="card-img-top" alt="..." style={{ width: "10rem" }} />
                                                 <div class="card-body">
                                                     <h5 class="card-title text-danger" style={{ fontWeight: "bold" }}>Error</h5>
-                                                    <p class="card-text font-italic" style={{ color: "#8d96eb", fontStyle: "italic" }}>{errorMessage}</p>
+                                                    <p class="card-text font-italic" style={{ color: "#8d96eb", fontStyle: "italic" }}>{completeErrorMessage}</p>
                                                     <a class="card-text" style={{ cursor: "pointer" }} onClick={() => window.open("/forget-password")}><small class="text-muted">New Request</small></a>
                                                 </div>
                                             </div>
