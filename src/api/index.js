@@ -6,7 +6,7 @@ const env = {
 }
 
 const API = axios.create({
-    baseURL: env["prod"]
+    baseURL: env["local"]
 });
 
 // setting auth header
@@ -23,6 +23,9 @@ API.interceptors.request.use((req) => {
 export const login = (formData) => API.post('/login', formData)
 export const register = (formData) => API.post('/register', formData)
 export const logout = () => API.post('/logout')
+export const forgetPassword = (email) => API.post("/forget_password", email)
+export const confirmResetPassword = (user_id) => API.get(`/reset_password/${user_id}`)
+export const resetPassword = (formData) => API.post("/reset_password", formData)
 
 // TRADE 
 export const allTrades = () => API.get("/all_trades")

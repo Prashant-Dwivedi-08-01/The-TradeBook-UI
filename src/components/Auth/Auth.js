@@ -43,6 +43,7 @@ const Auth = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    // const history = useHistory();
 
     
     const initialLoginFormData = {
@@ -79,6 +80,7 @@ const Auth = () => {
     const handelLoginToggle = () => {
         setIsLogin(!isLogin);
     }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -234,9 +236,15 @@ const Auth = () => {
                             {
                                 isLogin
                                     ? (
-                                        <span style={{ display: "flex", justifyContent: "center", fontSize: "1rem" }}>
-                                            Don't have an account<a style={{ color: "#8d96eb", cursor: "pointer" }} onClick={handelLoginToggle}>? Register</a>
-                                        </span>
+                                        <>
+                                        <span style={{ display: "flex", justifyContent: "center", fontSize: "0.85rem" }}>
+                                                <a style={{ color: "#8d96eb", cursor: "pointer" }} onClick={()=>window.open('/forget-password','_blank')}>Forget Password</a>
+                                            </span>
+                                            <span style={{ display: "flex", justifyContent: "center", fontSize: "1rem" }}>
+                                                Don't have an account<a style={{ color: "#8d96eb", cursor: "pointer" }} onClick={handelLoginToggle}>? Register</a>
+                                            </span>
+                                            
+                                        </>
                                     )
                                     : (
                                         <span style={{ display: "flex", justifyContent: "center", fontSize: "1rem" }}>
