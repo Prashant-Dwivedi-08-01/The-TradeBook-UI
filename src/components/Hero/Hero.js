@@ -17,6 +17,7 @@ import LatestTrades from "../LatestTrades/LatestTrades";
 import NewTrade from "../NewTrade/NewTrade";
 import Auth from "../Auth/Auth";
 import Main from "../Main/Main";
+import NavBar from "../NavBar/NavBar";
 
 // OTHERS
 import 'react-toastify/dist/ReactToastify.css';
@@ -67,6 +68,8 @@ const Hero = () => {
     }, [user, renderStatus])
     return (
         <>
+            <NavBar/>
+            
             <Main />
 
             {/* AUTH LOGIN-REGISTER MODAL. BUTTON TO TRIGGER THIS IS PRESENT IN MAIN */}
