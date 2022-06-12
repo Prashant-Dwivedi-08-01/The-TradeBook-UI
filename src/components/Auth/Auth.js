@@ -187,7 +187,7 @@ const Auth = () => {
                                             </div>
                                             <div className="mb-3 input-group">
                                                 <input type={showPassword? "text":"password"} onChange={handleLoginChange} value={formLoginData['password']} className="form-control" name="password" placeholder="Password" />
-                                                <span class="input-group-text" id="basic-addon2" onClick={() => setShowPassword(!showPassword)}>
+                                                <span className="input-group-text" id="basic-addon2" onClick={() => setShowPassword(!showPassword)}>
                                                     {
                                                         showPassword
                                                         ? <AiOutlineEye color="#00204"/>

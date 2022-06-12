@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const InfoTitle = styled.h2`
     text-align: center;
-    margin-top: 7%;
+    margin-top: 5%;
     font-weight: bold;
 
 `

@@ -121,7 +121,7 @@ const NewTrade = ({ renderStatus, setRenderStatus }) => {
                 <div className="modal-content" style={{ borderRadius: "0.5rem" }}>
 
                     <CustomModalHeader className="modal-header" isBuy={isBuy}>
-                        <button type="button" class="btn-close" onClick={closeModal} data-bs-dismiss="modal" aria-label="Close" id="newtrade_modal_btn"></button>
+                        <button type="button" className="btn-close" onClick={closeModal} data-bs-dismiss="modal" aria-label="Close" id="newtrade_modal_btn"></button>
                     </CustomModalHeader>
 
                     <div className="modal-header" style={{

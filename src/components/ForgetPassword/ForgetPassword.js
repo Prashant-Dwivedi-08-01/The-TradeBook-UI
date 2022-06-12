@@ -51,11 +51,11 @@ const ForgetPassword = () => {
         <>
             <MainDiv>
             <Heading className="mb-5">Forget Password</Heading>
-                <div class="card" style={{ width: "22rem" }}>
-                    <div class="card-body">
+                <div className="card" style={{ width: "22rem" }}>
+                    <div className="card-body">
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Email address to reset your password</label>
+                            <label for="exampleFormControlInput1" className="form-label">Email address to reset your password</label>
                                 <input type="email" value={email} onChange={handelChange} className="form-control" name="email"/>
                             </div>
                             <div className="d-flex justify-content-center">
