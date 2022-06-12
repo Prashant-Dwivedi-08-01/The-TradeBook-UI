@@ -97,9 +97,9 @@ const ResetPassword = () => {
                 {
                     completeLoading
                         ? (
-                            <div class="text-center text-light">
-                                <div class="spinner-border" role="status">
-                                    <span class="visually-hidden">Loading...</span>
+                            <div className="text-center text-light">
+                                <div className="spinner-border" role="status">
+                                    <span className="visually-hidden">Loading...</span>
                                 </div>
                             </div>
                         )
@@ -108,25 +108,25 @@ const ResetPassword = () => {
                                 {
                                     showCompleteErrorMessage
                                         ? (
-                                            <div class="card mb-3 d-flex align-items-center" style={{ width: "45rem" }}>
-                                                <img src="/images/warning.png" class="card-img-top" alt="..." style={{ width: "10rem" }} />
-                                                <div class="card-body">
-                                                    <h5 class="card-title text-danger" style={{ fontWeight: "bold" }}>Error</h5>
-                                                    <p class="card-text font-italic" style={{ color: "#8d96eb", fontStyle: "italic" }}>{completeErrorMessage}</p>
-                                                    <a class="card-text" style={{ cursor: "pointer" }} onClick={() => window.open("/forget-password")}><small class="text-muted">New Request</small></a>
+                                            <div className="card mb-3 d-flex align-items-center" style={{ width: "45rem" }}>
+                                                <img src="/images/warning.png" className="card-img-top" alt="..." style={{ width: "10rem" }} />
+                                                <div className="card-body">
+                                                    <h5 className="card-title text-danger" style={{ fontWeight: "bold" }}>Error</h5>
+                                                    <p className="card-text font-italic" style={{ color: "#8d96eb", fontStyle: "italic" }}>{completeErrorMessage}</p>
+                                                    <a className="card-text" style={{ cursor: "pointer" }} onClick={() => window.open("/forget-password")}><small className="text-muted">New Request</small></a>
                                                 </div>
                                             </div>
                                         )
                                         : (
-                                            <div class="card" style={{ width: "22rem" }}>
-                                                <div class="card-body">
+                                            <div className="card" style={{ width: "22rem" }}>
+                                                <div className="card-body">
                                                     <form onSubmit={handleSubmit}>
                                                         <div className="mb-3">
-                                                            <label for="exampleFormControlInput1" class="form-label">New Password</label>
+                                                            <label for="exampleFormControlInput1" className="form-label">New Password</label>
                                                             <input type="password" value={formData["new_password"]} onChange={handelChange} className="form-control" name="new_password" />
                                                         </div>
                                                         <div className="mb-3">
-                                                            <label for="exampleFormControlInput1" class="form-label">Confirm New Password</label>
+                                                            <label for="exampleFormControlInput1" className="form-label">Confirm New Password</label>
                                                             <input type="text" value={formData["c_new_password"]} onChange={handelChange} className="form-control" name="c_new_password" />
                                                         </div>
                                                         <div className="d-flex justify-content-center">

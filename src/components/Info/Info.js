@@ -18,9 +18,9 @@ const Info = () => {
     return (
         <>
             <InfoTitle>What is TradeBook?</InfoTitle>
-            <div className="container mt-5">
+            <div className="container">
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-lg-4">
                         <Card>
                             <CardBody>
                                 <CardTitile><BiNotepad size={"4rem"} color="#8d96eb"/><br/><br/>Record Trade</CardTitile>
@@ -32,7 +32,7 @@ const Info = () => {
                             </CardBody>
                         </Card>
                     </div>
-                    <div className="col-4">
+                    <div className="col-lg-4">
                         <Card>
                             <CardBody>
                                 <CardTitile><GiBinoculars size={"4rem"} color="#8d96eb"/><br/><br/>Look Past Trades</CardTitile>
@@ -44,7 +44,7 @@ const Info = () => {
                             </CardBody>
                         </Card>
                     </div>
-                    <div className="col-4">
+                    <div className="col-lg-4">
                         <Card>
                             <CardBody>
                                 <CardTitile><BiCoinStack size={"4rem"} color="#8d96eb"/><br/><br/>Manage Current Positions</CardTitile>
@@ -58,7 +58,7 @@ const Info = () => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-lg-4">
                         <Card>
                             <CardBody>
                                 <CardTitile><MdWaterfallChart size={"4rem"} color="#8d96eb"/><br/><br/>Explore Charts</CardTitile>
@@ -70,7 +70,7 @@ const Info = () => {
                             </CardBody>
                         </Card>
                     </div>
-                    <div className="col-4">
+                    <div className="col-lg-4">
                         <Card>
                             <CardBody>
                                 <CardTitile><BsPencilSquare size={"4rem"} color="#8d96eb"/><br/><br/>Take Notes</CardTitile>
@@ -82,7 +82,7 @@ const Info = () => {
                             </CardBody>
                         </Card>
                     </div>
-                    <div className="col-4">
+                    <div className="col-lg-4">
                         <Card>
                             <CardBody>
                                 <CardTitile><MdQueryStats size={"4rem"} color="#8d96eb"/><br/><br/>Markets</CardTitile>

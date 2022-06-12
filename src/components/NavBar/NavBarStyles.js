@@ -3,13 +3,13 @@ import styled from "styled-components";
 // export const is named export, this can be imported as { Name }
 export const BackDiv = styled.div`
     background-color: #002024;
-    height: 21rem;
+    height: 30rem;
     width: 100vw;
     /* border-bottom-left-radius: 5rem;
     border-bottom-right-radius: 5rem; */
 `
 
-export const NavBar = styled.div`
+export const Nav = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -23,6 +23,7 @@ export const TitleLogo = styled.div`
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    cursor: pointer;
 `
 
 export const Name = styled.h1`
@@ -93,10 +94,10 @@ export const GreenButton = styled.button`
     border-radius: 0.1rem;
     background-color: #1cff95;
     font-weight: bold;
-    width: 49%;
+    width: 34%;
 
 `
 
 export const ChartImage = styled.img`
-    width: 87%;
+    width: 90%;
 `

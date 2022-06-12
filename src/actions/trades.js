@@ -1,4 +1,4 @@
-import { ALL_TRADES, NEW_TRADE, EXIT_TRADE } from "../constants/actionTypes"
+import { ALL_TRADES, NEW_TRADE, EXIT_TRADE, INDIVIDUAL_TRADE } from "../constants/actionTypes"
 import *  as api from "../api/index"
 
 export const getAllTrades = (navigate) => async(dispatch) => {
@@ -26,7 +26,7 @@ export const getAllTrades = (navigate) => async(dispatch) => {
 
     }catch(error){
         if(error.response.status == 401){
-            localStorage.clear()
+            localStorage.clear() // when user is not authorized
             navigate('/')
         }
         return {
@@ -98,6 +98,42 @@ export const exitTrade = (tradeData, navigate) => async(dispatch) => {
             return {
                 "status": true,
                 "data": data["data"]["msg"]
+            }
+
+        } else {
+            return {
+                "status" : false,
+                "message": data['error']
+            }
+        }
+
+    } catch (error) {
+        if(error.response.status == 401){
+            localStorage.clear();
+            navigate("/")
+        }
+        return {
+            "status": false,
+            "message" : "Something went wrong"
+        }
+    }
+}
+
+export const individualTradeDataAction = (script, navigate) => async(dispatch) => {
+    try {
+        const { data } = await api.individualTradeData(script);
+
+        if(data["success"]){
+
+            const action = {
+                type: INDIVIDUAL_TRADE,
+                payload: data["data"]["trades_info"]
+            }
+            dispatch(action)
+            
+            return {
+                "status": true,
+                "data": data["data"]["trades_info"]
             }
 
         } else {

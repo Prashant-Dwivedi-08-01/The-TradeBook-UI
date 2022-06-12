@@ -54,7 +54,7 @@ const LatestTrades = ({ trades }) => {
                                         <ScriptLogo src='images/VEDL.png' />
                                         {trade['script']}
                                     </Td>
-                                    <Td>{trade['entries'][0][0].slice(0, -12)}</Td>
+                                    <Td>{trade['entries'][0][0]}</Td>
                                     <Td>{trade['entries'][0][2]}</Td>
                                     <Td>{trade['entries'][0][1]}</Td>
                                     <Td>
@@ -63,7 +63,7 @@ const LatestTrades = ({ trades }) => {
                                         </ProfitButton>
                                     </Td>
                                     <Td>
-                                        <Details><AiOutlineFileSearch size={'2rem'} color="#8d96eb" /></Details>
+                                        <Details href={`/details/${trade['script']}`} ><AiOutlineFileSearch size={'2rem'} color="#8d96eb" /></Details>
                                     </Td>
                                 </TableRow>
                             ))
