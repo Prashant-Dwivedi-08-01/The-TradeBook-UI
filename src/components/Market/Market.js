@@ -1,5 +1,6 @@
 import React, { useEffect, useDispatch, useState, useRef } from "react";
-import TradingViewWidget, { Themes } from 'react-tradingview-widget';
+// import TradingViewWidget, { Themes } from 'react-tradingview-widget';
+import { AdvancedRealTimeChart, SymbolOverview  } from "react-ts-tradingview-widgets";
 
 // components
 import NavBar from "../NavBar/NavBar";
@@ -9,6 +10,7 @@ const Market = () => {
 
   const TickerTapeWidgetRef = useRef(null);
   const MarketOverViewRef = useRef(null)
+  const MarketNewRef = useRef(null)
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -53,6 +55,23 @@ const Market = () => {
           }`
     TickerTapeWidgetRef.current.appendChild(script);
   }, [])
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-timeline.js';
+    script.async = true;
+    script.innerHTML = `{
+      "feedMode": "all_symbols",
+      "colorTheme": "dark",
+      "isTransparent": false,
+      "displayMode": "regular",
+      "width": "100%",
+      "height": "100%",
+      "locale": "in"
+    }`
+    MarketNewRef.current.appendChild(script);
+  }, [])
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js';
@@ -207,6 +226,15 @@ const Market = () => {
             </div>
 
           </div>
+          <div className="row">
+            <div className="col-lg-12 mt-5" style={{width: "100vw", height: "45vh"}}>
+          
+            <div class="tradingview-widget-container" ref={MarketNewRef}>
+              <div class="tradingview-widget-container__widget"></div>
+            </div>
+
+            </div>
+          </div>
 
           <div className="row">
 
@@ -223,15 +251,87 @@ const Market = () => {
               <h4 style={{ textAlign: "center", marginBottom: "0.75rem" }}>
                 <span className="badge bg-success">Sensex</span>
               </h4>
-              <TradingViewWidget
+              {/* <TradingViewWidget
                 symbol="BSE:SENSEX"
                 theme={Themes.DARK}
                 locale="fr"
                 hide_side_toolbar={false}
                 autosize
-              />
+              /> */}
+              <AdvancedRealTimeChart
+              symbol="BSE:SENSEX"
+               theme="dark"
+               locale="fr" 
+               autosize
+               hide_side_toolbar={false}
+               >
+               </AdvancedRealTimeChart>
             </div>
 
+          </div>
+          <div className="row">
+            <div className="col-lg-12 mt-5">
+                <h4 style={{ marginBottom: "2rem", color: "white", fontWeight: "bold", marginTop: "5rem"}}>
+                    {/* <span className="badge bg-success">Sensex</span> */}
+                    Major Stocks
+                  </h4>
+                <SymbolOverview 
+                    symbols= {
+                      [
+                        [
+                          "Reliance",
+                          "BSE:RELIANCE|12M"
+                        ],
+                        [
+                          "HDFC Bank",
+                          "BSE:HDFCBANK|12M"
+                        ],
+                        [
+                          "ICICI Bank",
+                          "BSE:ICICIBANK|12M"
+                        ],
+                        [
+                          "TCS",
+                          "BSE:TCS|12M"
+                        ],
+                        [
+                          "Infosys",
+                          "BSE:INFY|12M"
+                        ],
+                        [
+                          "Tata Motors",
+                          "BSE:TATAMOTORS|12M"
+                        ],
+                        [
+                          "Kotak Bank",
+                          "BSE:KOTAKBANK|12M"
+                        ],
+                        [
+                          "L&T",
+                          "BSE:LT|12M"
+                        ],
+                        [
+                          "AXIS Bank",
+                          "BSE:AXISBANK|12M"
+                        ],
+                        [
+                          "HUL",
+                          "BSE:HINDUST|12M"
+                        ],
+                        [
+                          "HDFC",
+                          "BSE:HDFC|12M"
+                        ]
+                      ]
+                    }
+                    colorTheme="dark"
+                    width="100%"
+                    height="36rem"
+                    chartType="candlesticks"
+                    downColor="#800080"
+                    borderDownColor="#800080"
+                    wickDownColor="#800080" />
+            </div>
           </div>
         </div>
       </div>
