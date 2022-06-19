@@ -18,7 +18,7 @@ const Info = () => {
     return (
         <>
             <InfoTitle>What is TradeBook?</InfoTitle>
-            <div className="container">
+            <div className="container mb-5" >
                 <div className="row">
                     <div className="col-lg-4">
                         <Card>

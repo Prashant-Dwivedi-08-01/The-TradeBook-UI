@@ -11,7 +11,8 @@ import {
     Slogan,
     LoginButton,
     NavOptions,
-    Option
+    Option,
+    NavLink
 } from "./NavBarStyles";
 
 // ACTION
@@ -61,9 +62,15 @@ const NavBar = () => {
                         </Slogan>
                     </TitleLogo>
                     <NavOptions>
-                        <Option>Trades</Option>
-                        <Option>Market</Option>
-                        <Option>News</Option>
+                        <Option>
+                            <NavLink href="/#">Trade</NavLink>
+                        </Option>
+                        <Option>
+                            <NavLink href="/market">Market</NavLink>
+                        </Option>
+                        <Option>
+                            <NavLink href="/#">New</NavLink>
+                        </Option>
                     </NavOptions>
                     {
                         loading
