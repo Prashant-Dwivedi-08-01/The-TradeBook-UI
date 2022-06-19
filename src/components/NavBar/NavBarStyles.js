@@ -55,6 +55,16 @@ export const Option = styled.li`
     }
 `
 
+export const NavLink = styled.a`
+    text-decoration: none;
+    color: white;
+    :hover{
+        cursor: pointer;
+        color: #8d96eb;
+        text-decoration: underline;
+    }
+`
+
 export const LoginButton = styled.a`
     color: white;
     display: flex;

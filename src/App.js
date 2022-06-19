@@ -4,6 +4,7 @@ import ForgetPassword from "./components/ForgetPassword/ForgetPassword"
 import ResetPassword from "./components/ResetPassword/ResetPassword"
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import TradeDetails from './components/TradeDetails/TradeDetails';
+import Market from './components/Market/Market';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/forget-password" element={<ForgetPassword/>} />
         <Route path="/reset-password/:user_id" element={<ResetPassword/>} />
         <Route path="/details/:script" element={<TradeDetails/>} />
+        <Route path="/market" element={<Market/>} />
       </Routes>
     </BrowserRouter>
   );
