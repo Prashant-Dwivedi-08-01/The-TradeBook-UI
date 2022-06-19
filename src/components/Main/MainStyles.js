@@ -74,7 +74,7 @@ export const LeftSection = styled.div`
     /* padding: 10rem; */
     display: flex;
     flex-direction: column;
-    padding: 5% 7%;
+    padding: 3% 7%;
     
 `
 export const RightSection = styled.div`
