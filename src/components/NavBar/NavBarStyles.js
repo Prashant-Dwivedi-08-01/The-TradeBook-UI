@@ -55,7 +55,6 @@ export const Option = styled.li`
     }
 `
 
-<<<<<<< HEAD
 export const NavLink = styled.a`
     text-decoration: none;
     color: white;
@@ -66,8 +65,6 @@ export const NavLink = styled.a`
     }
 `
 
-=======
->>>>>>> 3bc89d21bc1f7ad03129fcb206ff7697889f0f22
 export const LoginButton = styled.a`
     color: white;
     display: flex;
